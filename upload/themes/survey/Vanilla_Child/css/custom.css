@@ -1,0 +1,134 @@
+/******************
+    User custom CSS
+    ---------------
+
+    In this file you can add your own custom CSS
+    It will be loaded last, so you can override any other property.
+    Also, it will never be updated. So if you inheritate a core template and just add here some CSS, you'll still benefit of all the updates
+*/
+
+  .table-bordered > thead > tr > th {
+    border: 1px solid #dadada;
+  }
+  .table-bordered > thead > tr > td {
+    border: 1px solid #dadada;
+  }
+
+  /* Text formatting */
+  .survey-welcome {
+    color: #000000 !important;
+  }
+  .ls-questionhelp {
+    color: #55358c !important;
+  }
+  a.dropdown-item.bg-warning.disabled {
+    color: #55358c !important;
+  }
+
+    /* Button formatting */
+  .btn-primary {
+    background-color: #55358c;
+    border-color: #55358c;
+  }
+  .btn-primary:hover {
+    background-color: #57436f;
+    border-color: #57436f;
+  }
+
+  /* Nav formatting */
+  #survey-nav {
+    background-color: #754680 !important;
+  }v
+  .navbar-light .navbar-nav .nav-link:hover {
+    color: #c2c2c2 !important;
+  }
+
+  ul.nav.navbar-nav.navbar-action-link.navbar-right {
+    background-color: #ffffff;
+    border-radius: 0.3rem;
+    padding-right: 0;
+  }
+  .ul.nav.navbar-nav.navbar-action-link.navbar-right:hover {
+    background-color: #ffffff;
+  }
+  .navbar-light .navbar-nav .nav-link {
+    color: #000000;
+  }
+  .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:active, .navbar-light .navbar-nav .nav-link:focus {
+    color: #343434 !important;
+  }
+
+  .nav-helper-message {
+    color: #ffffff;
+    padding-left: 10px;
+  }
+  .navbar-light .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+  }
+  .navbar-light .navbar-toggler {
+    border-color: #ffffff !important;
+  }
+  .navbar-toggler:focus {
+    box-shadow: none !important;
+  }
+
+  @media  screen and (max-width: 767px) {
+    .nav-helper-message {
+      display: none;
+    }
+  }
+
+  ul.dropdown-menu.show {
+    max-height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+
+
+
+  /* Registration */
+
+  .register-form {
+    max-width: 640px;
+    margin: 20px auto 0 auto;
+  }
+
+  .register-jumbotron {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .register-jumbotron .h2 {
+    margin-top: 0 !important;
+  }
+
+  .register-jumbotron h2 {
+    margin-top: 0 !important;
+  }
+
+  .registration-banner {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .registration-banner img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .survey-welcome img {
+    width: 100%;
+    height: auto;
+  }
+
+  .question-container {
+    background-color: #f5f5f5;
+    border: 1px solid #a4a1a1;
+  }
+
+  @media only screen and (max-device-width: 760px) {
+    .ls-answers {
+      padding-top: 0;
+      padding-bottom: 8px;
+    }
+  }
