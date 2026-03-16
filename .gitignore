@@ -1,3 +1,7 @@
 volumes/
 .DS_Store
 upload/
+tmp/
+*.log
+*.bak
+*.tmp
