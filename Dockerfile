@@ -7,3 +7,8 @@ RUN apt-get update \
     && apt-get install -y \
         nmap \
         vim
+
+# APCu
+RUN pecl install apcu \
+    && docker-php-ext-enable apcu \
+    && echo "apc.enabled=1\napc.enable_cli=1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
