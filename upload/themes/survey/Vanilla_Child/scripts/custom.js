@@ -35,7 +35,7 @@ $(document).on("ready pjax:scriptcomplete", function () {
   runScript();
 
   function loadQuestionAnswers() {}
-  /*
+
   // Vanilla JavaScript
   document.querySelectorAll(".mx-form-fields").forEach((e) => {
     e.style.display = "none";
@@ -52,5 +52,4 @@ $(document).on("ready pjax:scriptcomplete", function () {
       },
     });
   };
-  */
 });

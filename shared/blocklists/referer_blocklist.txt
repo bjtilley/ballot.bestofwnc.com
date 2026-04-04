@@ -1,0 +1,10 @@
+inboxes
+temp
+maildax
+thefree
+fakemailgenerator
+smailpro
+mail-vanish
+anonymmail
+emailnator
+inspacebox
