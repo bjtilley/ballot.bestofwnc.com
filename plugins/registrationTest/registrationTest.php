@@ -15,12 +15,12 @@ class registrationTest extends PluginBase
 
     /**
      * Resolve the path to disposable_email.txt.
-     * Production: /var/www/shared/blocklists/disposable_email.txt
+     * Production: /var/www/shared/blocklists/disposable_domains.txt
      * Local dev:  <repo_root>/shared/blocklists/disposable_email.txt
      */
     private function getBlocklistPath()
     {
-        $production = '/var/www/shared/blocklists/disposable_email.txt';
+        $production = '/var/www/shared/blocklists/disposable_domains.txt';
         if (file_exists($production)) {
             return $production;
         }
@@ -98,6 +98,21 @@ class registrationTest extends PluginBase
         throw new CHttpException(404, Yii::t('registrationTest', 'The survey in which you are trying to participate does not seem to exist. It may have been deleted or the link you were given is outdated or incorrect. Please contact webmaster@mountainx.com if you believe this is an error.'));
     }
 
+    private function writeLog(array $data)
+    {
+        $log_dir = __DIR__ . '/../../tmp/runtime/log/';
+        if (!is_dir($log_dir)) {
+            mkdir($log_dir, 0775, true);
+        }
+        $file_date = (new DateTime())->format('Y-m-d_H.i.s');
+        $log_file  = $log_dir . $file_date . '--' . uniqid('', true) . '.json';
+        $fh = fopen($log_file, 'a');
+        if ($fh !== false) {
+            fwrite($fh, json_encode($data, JSON_PRETTY_PRINT));
+            fclose($fh);
+        }
+    }
+
     /**
      * @see beforeRegister
      */
@@ -110,27 +125,26 @@ class registrationTest extends PluginBase
 
         $date        = new DateTime();
         $string_date = $date->format('Y-m-d h:i:s');
-        $file_date   = $date->format('Y-m-d_H.i.s');
 
+        // Log registration attempt for bot troubleshooting (TEMPORARY)
         /*
-        // Log registration attempt for bot troubleshooting
-        $log_dir  = __DIR__ . '/../../tmp/runtime/log/';
-        $log_file = $log_dir . $file_date . '--' . uniqid('', true) . '.json';
-        if (!empty($_POST)) {
-            $log_data = [
-                'date'      => $string_date,
-                '$_REQUEST' => $_REQUEST,
-                '$_SERVER'  => $_SERVER,
-            ];
-            if (!is_dir($log_dir)) {
-                mkdir($log_dir, 0775, true);
-            }
-            $file = fopen($log_file, 'a');
-            if ($file !== false) {
-                fwrite($file, json_encode($log_data));
-                fclose($file);
-            }
-        }
+        $blocklist_path   = $this->getBlocklistPath();
+        $blocklist_exists = file_exists($blocklist_path);
+        $email_raw        = $_POST['register_email'] ?? '';
+        $email_normalized = strtolower(trim($email_raw));
+        $atPos            = strpos($email_normalized, '@');
+        $domain_extracted = $atPos !== false ? substr($email_normalized, $atPos + 1) : null;
+        $is_disposable    = $domain_extracted !== null ? $this->isDisposableDomain($domain_extracted) : null;
+
+        $this->writeLog([
+            'hook'             => 'beforeRegister',
+            'date'             => $string_date,
+            'blocklist_exists' => $blocklist_exists,
+            'domain'           => $domain_extracted,
+            'is_disposable'    => $is_disposable,
+            'cf_ipcountry'     => $_SERVER['HTTP_CF_IPCOUNTRY'] ?? null,
+            'honeypot_blocked' => !empty($_POST['register_attribute_1']) || !empty($_POST['register_attribute_2']),
+        ]);
         */
 
         // Block non-US submissions (Cloudflare country header)
@@ -164,6 +178,15 @@ class registrationTest extends PluginBase
      */
     public function beforeSurveyPage()
     {
+        // Log page hit for bot troubleshooting (TEMPORARY)
+        /*
+        $this->writeLog([
+            'hook'         => 'beforeSurveyPage',
+            'date'         => (new DateTime())->format('Y-m-d h:i:s'),
+            'cf_ipcountry' => $_SERVER['HTTP_CF_IPCOUNTRY'] ?? null,
+        ]);
+        */
+
         // Block non-US submissions (Cloudflare country header)
         if (!empty($_SERVER['HTTP_CF_IPCOUNTRY']) && $_SERVER['HTTP_CF_IPCOUNTRY'] !== 'US') {
             $this->blockResponse();
