@@ -1,6 +1,8 @@
 volumes/
 .DS_Store
-upload/
+/upload/*
+!/upload/themes/
+/assets/packages/questions/upload/
 tmp/
 *.log
 *.bak

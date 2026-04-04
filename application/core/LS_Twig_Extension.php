@@ -749,4 +749,24 @@ class LS_Twig_Extension extends AbstractExtension
         $trackURL = htmlspecialchars($surveyName . '-[' . $surveyId . ']/[' . $page . ']-' . $groupName);
         return $trackURL;
     }
+
+    /**
+     * Read a pre-exported group questions JSON file and return its raw content for inlining into the page.
+     * The group ID is cast to int to prevent path traversal.
+     * @param  int|string $groupId
+     * @return string  JSON object string, or '{}' if the file does not exist
+     */
+    public static function getGroupQuestionsJson($groupId)
+    {
+        $groupId = (int) $groupId;
+        if ($groupId <= 0) {
+            return '{}';
+        }
+        $filePath = Yii::app()->basePath . '/../upload/question_answers/group_questions_' . $groupId . '.json';
+        if (!file_exists($filePath)) {
+            return '{}';
+        }
+        $content = file_get_contents($filePath);
+        return $content !== false ? $content : '{}';
+    }
 }

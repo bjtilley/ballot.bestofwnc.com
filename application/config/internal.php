@@ -320,6 +320,7 @@ $internalConfig = array(
                 'makeFlashMessage'        => 'makeFlashMessage',
                 'getAllTokenAnswers'      => 'LS_Twig_Extension::getAllTokenAnswers',
                 'getGoogleAnalyticsTrackingUrl' => 'LS_Twig_Extension::getGoogleAnalyticsTrackingUrl',
+                'getGroupQuestionsJson'         => 'LS_Twig_Extension::getGroupQuestionsJson',
             ),
             'filters' => array(
                 'jencode' => 'CJSON::encode',
@@ -449,6 +450,7 @@ $internalConfig = array(
                     'getAllTokenAnswers',
                     'makeFlashMessage',
                     'getGoogleAnalyticsTrackingUrl',
+                    'getGroupQuestionsJson',
                 ),
             ),
         ),
