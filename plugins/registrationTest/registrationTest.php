@@ -98,6 +98,29 @@ class registrationTest extends PluginBase
         throw new CHttpException(404, Yii::t('registrationTest', 'The survey in which you are trying to participate does not seem to exist. It may have been deleted or the link you were given is outdated or incorrect. Please contact webmaster@mountainx.com if you believe this is an error.'));
     }
 
+    private function isBlocklistedDomain($domain)
+    {
+        $blocklist = [
+            'nexafilm.com',
+            'agoalz.com',
+            'algarr.com',
+            'bwmyga.com',
+            'lnovic.com',
+            'xkxkud.com',
+            'ruutukf.com',
+            'zcalo.com',
+            'bltiwd.com',
+            'yzcalo.com',
+            'forexzig.com',
+            'cosdas.com',
+            'fxzig.com',
+            'denipl.net',
+            'denipl.com',
+            'footesttesttests.com'
+        ];
+        return in_array($domain, $blocklist, true);
+    }
+
     private function writeLog(array $data)
     {
         $log_dir = __DIR__ . '/../../tmp/runtime/log/';
@@ -158,7 +181,7 @@ class registrationTest extends PluginBase
             $atPos = strpos($email, '@');
             if ($atPos !== false) {
                 $domain = substr($email, $atPos + 1);
-                if ($this->isDisposableDomain($domain)) {
+                if ($this->isDisposableDomain($domain) || $this->isBlocklistedDomain($domain)) {
                     $this->blockResponse();
                 }
             }
